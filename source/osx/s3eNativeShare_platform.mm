@@ -8,6 +8,8 @@
  */
 #include "s3eNativeShare_internal.h"
 
+#include "IwDebug.h"
+
 s3eResult s3eNativeShareInit_platform()
 {
     // Add any platform-specific initialisation code here
@@ -20,5 +22,6 @@ void s3eNativeShareTerminate_platform()
 
 s3eResult s3eNativeShareShow_platform(const char* text, const char* url)
 {
-    return S3E_RESULT_ERROR;
+    IwTrace(NATIVESHARE, ("Sharing text (%s) and URL (%s), but not implemented for OSX!", text, url));
+    return S3E_RESULT_SUCCESS;
 }
