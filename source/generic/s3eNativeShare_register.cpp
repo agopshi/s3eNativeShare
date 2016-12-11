@@ -10,7 +10,6 @@
  * to nothing if this extension is not enabled in the loader
  * at build time.
  */
-#include "IwDebug.h"
 #include "s3eNativeShare_autodefs.h"
 #include "s3eEdk.h"
 #include "s3eNativeShare.h"
@@ -18,21 +17,6 @@
 extern s3eResult s3eNativeShareInit();
 extern void s3eNativeShareTerminate();
 
-
-// On platforms that use a seperate UI/OS thread we can autowrap functions
-// here.   Note that we can't use the S3E_USE_OS_THREAD define since this
-// code is oftern build standalone, outside the main loader build.
-#if defined I3D_OS_IPHONE || defined I3D_OS_TVOS ||defined I3D_OS_OSX || defined I3D_OS_LINUX || defined I3D_OS_WINDOWS
-
-static s3eResult s3eNativeShareShow_wrap(const char* text, const char* url)
-{
-    IwTrace(NATIVESHARE_VERBOSE, ("calling s3eNativeShare func on main thread: s3eNativeShareShow"));
-    return (s3eResult)(intptr_t)s3eEdkThreadRunOnOS((s3eEdkThreadFunc)s3eNativeShareShow, 2, text, url);
-}
-#define s3eNativeShareShow s3eNativeShareShow_wrap
-
-
-#endif
 
 s3eResult s3eNativeShareRegister(s3eNativeShareCallback cbid, s3eCallback fn, void* pData)
 {

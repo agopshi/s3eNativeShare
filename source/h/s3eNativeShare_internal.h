@@ -42,7 +42,7 @@ void s3eNativeShareTerminate();
  * Platform-specific termination, implemented on each platform
  */
 void s3eNativeShareTerminate_platform();
-s3eResult s3eNativeShareShow_platform(const char* text, const char* url);
+s3eResult s3eNativeShareShow_platform(const char* text, const char* url, float x, float y);
 
 
 #endif /* !S3ENATIVESHARE_INTERNAL_H */

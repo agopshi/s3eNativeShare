@@ -106,7 +106,7 @@ s3eResult s3eNativeShareUnRegister(s3eNativeShareCallback cbid, s3eCallback fn)
     return ret;
 }
 
-s3eResult s3eNativeShareShow(const char* text, const char* url)
+s3eResult s3eNativeShareShow(const char* text, const char* url, float x, float y)
 {
     IwTrace(NATIVESHARE_VERBOSE, ("calling s3eNativeShare[2] func: s3eNativeShareShow"));
 
@@ -117,7 +117,7 @@ s3eResult s3eNativeShareShow(const char* text, const char* url)
     s3eDeviceLoaderCallStart(S3E_TRUE, (void*)g_Ext.m_s3eNativeShareShow);
 #endif
 
-    s3eResult ret = g_Ext.m_s3eNativeShareShow(text, url);
+    s3eResult ret = g_Ext.m_s3eNativeShareShow(text, url, x, y);
 
 #ifdef LOADER_CALL_LOCK
     s3eDeviceLoaderCallDone(S3E_TRUE, (void*)g_Ext.m_s3eNativeShareShow);

@@ -17,7 +17,7 @@
 
 namespace
 {
-	void share(NSArray* items)
+	void share(NSArray* items, float x, float y)
 	{
 		UIViewController* uiViewController = s3eEdkGetUIViewController();
 		
@@ -26,13 +26,16 @@ namespace
 		
 		activityViewController.excludedActivityTypes = @[];
 		
-		// Figure out if we need to do anything special for iPads vs. iPhones.
+		// iPads need to configure the popoverPresentationController.
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 		{
 			activityViewController.popoverPresentationController.sourceView = uiViewController.view;
 			activityViewController.popoverPresentationController.sourceRect = CGRectMake(
-				uiViewController.view.bounds.size.width / 2,
-				uiViewController.view.bounds.size.height / 2,
+				// Point the popover to this point.
+				x * uiViewController.view.bounds.size.width,
+				y * uiViewController.view.bounds.size.height,
+				
+				// Automatically size the popover.
 				0,
 				0
 			);
@@ -56,7 +59,7 @@ void s3eNativeShareTerminate_platform()
 { 
 }
 
-s3eResult s3eNativeShareShow_platform(const char* text, const char* url)
+s3eResult s3eNativeShareShow_platform(const char* text, const char* url, float x, float y)
 {
 	IwTrace(NATIVESHARE, (
 		"Sharing text (%s) and URL (%s) via UIActivityViewController",
@@ -76,12 +79,15 @@ s3eResult s3eNativeShareShow_platform(const char* text, const char* url)
 		[items addObject:[NSURL URLWithString:[NSString stringWithUTF8String:url]]];
 	}
 	
-	// This should be fine since we used run_on_os_thread.
-	share([items copy]);
+	// We could do this if we marked the function as run_on_os_thread within the s4e.
+	//share([items copy]);
 	
-	//dispatch_async(dispatch_get_main_queue(), ^() {
-	//	share([items copy]);
-	//});
+	NSArray* immutableItems = [items copy];
+	
+	// Run on the UI thread.
+	dispatch_async(dispatch_get_main_queue(), ^() {
+		share(immutableItems, x, y);
+	});
 	
 	return S3E_RESULT_SUCCESS;
 }

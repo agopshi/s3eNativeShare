@@ -81,7 +81,7 @@ s3eResult s3eNativeShareUnRegister(s3eNativeShareCallback cbid, s3eCallback fn);
  * - #S3E_RESULT_SUCCESS if no error occurred.
  * - #S3E_RESULT_ERROR if the operation failed.
  */
-s3eResult s3eNativeShareShow(const char* text, const char* url);
+s3eResult s3eNativeShareShow(const char* text, const char* url, float x, float y);
 
 // \cond HIDDEN_DEFINES
 S3E_END_C_DECL

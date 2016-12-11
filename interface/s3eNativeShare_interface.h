@@ -7,7 +7,7 @@
  */
 typedef  s3eResult(*s3eNativeShareRegister_t)(s3eNativeShareCallback cbid, s3eCallback fn, void* userData);
 typedef  s3eResult(*s3eNativeShareUnRegister_t)(s3eNativeShareCallback cbid, s3eCallback fn);
-typedef  s3eResult(*s3eNativeShareShow_t)(const char* text, const char* url);
+typedef  s3eResult(*s3eNativeShareShow_t)(const char* text, const char* url, float x, float y);
 
 /**
  * struct that gets filled in by s3eNativeShareRegister

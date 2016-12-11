@@ -23,7 +23,7 @@ void s3eNativeShareTerminate()
     s3eNativeShareTerminate_platform();
 }
 
-s3eResult s3eNativeShareShow(const char* text, const char* url)
+s3eResult s3eNativeShareShow(const char* text, const char* url, float x, float y)
 {
-	return s3eNativeShareShow_platform(text, url);
+	return s3eNativeShareShow_platform(text, url, x, y);
 }
