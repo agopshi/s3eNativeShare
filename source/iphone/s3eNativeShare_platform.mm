@@ -19,12 +19,24 @@ namespace
 {
 	void share(NSArray* items)
 	{
+		UIViewController* uiViewController = s3eEdkGetUIViewController();
+		
 		UIActivityViewController* activityViewController =
 			[[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
 		
 		activityViewController.excludedActivityTypes = @[];
 		
-		UIViewController* uiViewController = s3eEdkGetUIViewController();
+		// Figure out if we need to do anything special for iPads vs. iPhones.
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+		{
+			activityViewController.popoverPresentationController.sourceView = uiViewController.view;
+			activityViewController.popoverPresentationController.sourceRect = CGRectMake(
+				uiViewController.view.bounds.size.width / 2,
+				uiViewController.view.bounds.size.height / 2,
+				0,
+				0
+			);
+		}
 		
 		void (^completion)(void) = ^{
 			s3eEdkCallbacksEnqueue(S3E_EXT_NATIVESHARE_HASH, S3E_NATIVESHARE_CALLBACK_DONE);
@@ -63,18 +75,6 @@ s3eResult s3eNativeShareShow_platform(const char* text, const char* url)
 	{
 		[items addObject:[NSURL URLWithString:[NSString stringWithUTF8String:url]]];
 	}
-
-	// Figure out if we need to do anything special for iPads vs. iPhones.
-	// if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-	// {
-	// 	activityViewController.popoverPresentationController.sourceView = self.view;
-	// 	activityViewController.popoverPresentationController.sourceRect = CGRectMake(
-	// 		self.view.bounds.size.width / 4,
-	// 		self.view.bounds.size.height / 2w,
-	// 		0,
-	// 		0
-	// 	);
-	// }
 	
 	// This should be fine since we used run_on_os_thread.
 	share([items copy]);
