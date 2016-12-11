@@ -62,9 +62,10 @@ void s3eNativeShareTerminate_platform()
 s3eResult s3eNativeShareShow_platform(const char* text, const char* url, float x, float y)
 {
 	IwTrace(NATIVESHARE, (
-		"Sharing text (%s) and URL (%s) via UIActivityViewController",
+		"Sharing text (%s) and URL (%s) at point (%f, %f) via UIActivityViewController",
 		text ? text : "N/A",
-		url ? url : "N/A"
+		url ? url : "N/A",
+		x, y
 	));
 	
 	NSMutableArray* items = [[NSMutableArray alloc] init];
